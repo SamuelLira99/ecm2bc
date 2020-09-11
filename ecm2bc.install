@@ -1,0 +1,4 @@
+post_remove() {
+    sudo rm /usr/local/bin/ecm2bc
+    echo "package ecm2bin was succesfully removed"
+}
