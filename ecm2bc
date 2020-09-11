@@ -1,0 +1,37 @@
+#!/bin/bash
+
+echo "Enter a file name for the final game files without extension, like the examples below:"
+echo "Tomb Raider"
+echo "Metal Gear Solid (Disc 1)"
+echo "Resident Evil 3 - Nemesis"
+echo ""
+echo "Enter the file name:"
+read filenameByUser
+
+clear
+
+echo "(1/4) uncompressing ecm files..."
+ecm-uncompress *.ecm
+
+echo "(2/4) converting ape files to bin files..."
+for file in *.ape; do filename=${file%.ape}; ffmpeg -loglevel quiet -i "$file" "$filename.wav"; done
+rename 's/.wav/.bin/' *.wav
+
+echo "(3/4) merging bin files..."
+mkdir tmp
+cat *.bin > "tmp/$filenameByUser.bin"
+
+echo "(4/4) generating cue file..."
+echo "FILE \"${filenameByUser}.bin\" BINARY" > "tmp/$filenameByUser.cue"
+echo "  TRACK 01 MODE2/2352" >> "tmp/$filenameByUser.cue"
+echo "    INDEX 01 00:00:00" >> "tmp/$filenameByUser.cue"
+
+echo ""
+echo "Cleaning things up..."
+rm *.ecm *.bin *.ape *.7z
+mv tmp/* .
+rm -r tmp
+
+echo ""
+echo "DONE. HAVE FUN!"
+echo ""
