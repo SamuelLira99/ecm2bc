@@ -5,7 +5,7 @@ echo "Tomb Raider"
 echo "Metal Gear Solid (Disc 1)"
 echo "Resident Evil 3 - Nemesis"
 echo ""
-echo "Enter the file name:"
+echo "Enter the file name you want:"
 read filenameByUser
 
 clear
